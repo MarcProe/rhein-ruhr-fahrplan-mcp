@@ -1,5 +1,7 @@
 # rhein-ruhr-fahrplan-mcp
 
+<!-- mcp-name: io.github.MarcProe/rhein-ruhr-fahrplan-mcp -->
+
 [![PyPI](https://img.shields.io/pypi/v/rhein-ruhr-fahrplan-mcp.svg)](https://pypi.org/project/rhein-ruhr-fahrplan-mcp/)
 [![Python](https://img.shields.io/pypi/pyversions/rhein-ruhr-fahrplan-mcp.svg)](https://pypi.org/project/rhein-ruhr-fahrplan-mcp/)
 [![wheel](https://img.shields.io/pypi/wheel/rhein-ruhr-fahrplan-mcp.svg)](https://pypi.org/project/rhein-ruhr-fahrplan-mcp/)

@@ -53,7 +53,7 @@ resp = request(2, "tools/list")
 tools = resp["result"]["tools"]
 names = sorted(t["name"] for t in tools)
 print(f"✓ tools/list: {len(tools)} Tools: {', '.join(names)}")
-assert len(tools) == 8, "8 Tools erwartet"
+assert len(tools) == 9, "9 Tools erwartet"
 
 # 4) Live-Tool (Default, ohne DB): next_departures – muss funktionieren
 resp = request(3, "tools/call", {
@@ -95,7 +95,27 @@ payload = json.loads(resp["result"]["content"][0]["text"])
 assert payload.get("ok") is False and "FAHRPLAN_AGENCY_IDS" in payload.get("error", "")
 print("✓ stop_schedule ohne Konfiguration: klarer Hinweis")
 
-# 8) stdout-Kanal darf NUR Protokoll enthalten – stderr separat prüfen
+# 8) plan_connection mit departure_time: Zeiten müssen LOKAL sein und
+#    die erste Abfahrt >= angefragter Zeit (Bugfix 06.10.2026: UTC-Anzeige)
+import datetime
+target = (datetime.datetime.now() + datetime.timedelta(hours=3)).strftime("%Y-%m-%d %H:%M")
+resp = request(7, "tools/call", {
+    "name": "plan_connection",
+    "arguments": {"origin_ref": "de:05170:36308",
+                  "destination_ref": "de:05154:35739",
+                  "departure_time": target, "max_results": 2}})
+content = json.loads(resp["result"]["content"][0]["text"])
+conns = content.get("connections", [])
+assert content.get("ok") and conns, f"plan_connection mit Zeit fehlgeschlagen: {str(content)[:200]}"
+first_dep = conns[0]["legs"][0]["dep_planned"]
+# lokale Abfahrtszeit >= angefragte Stunde (Tageswechsel-tolerant: +1h Puffer)
+req_h, req_m = int(target[11:13]), int(target[14:16])
+dep_h, dep_m = int(first_dep[:2]), int(first_dep[3:5])
+assert (dep_h * 60 + dep_m) >= (req_h * 60 + req_m) - 60, \
+    f"Erste Abfahrt {first_dep} liegt vor angefragter Zeit {target} (UTC-Bug?)"
+print(f"✓ plan_connection(departure_time={target}): erste Abfahrt LOKAL {first_dep} >= angefragt")
+
+# 8b) stdout-Kanal darf NUR Protokoll enthalten – stderr separat prüfen
 proc.terminate()
 try:
     proc.wait(timeout=5)

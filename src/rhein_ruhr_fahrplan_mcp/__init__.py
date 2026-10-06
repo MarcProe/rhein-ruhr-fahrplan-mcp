@@ -4,4 +4,4 @@ GTFS-Sollplan (VRR-Feed, SQLite, gefiltert auf konfigurierbare Verkehrsunternehm
 + Live-Echtzeit (VRR-EFA, keyless).
 """
 
-__version__ = "1.2.0"
+__version__ = "1.2.1"

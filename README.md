@@ -201,7 +201,8 @@ networks:
 - Freie Haltestellennamen können mehrdeutig sein → Antwort mit `locations[]`-Vorschlägen und leeren Events. Deshalb: IMMER per DHID/ID auflösen.
 - `…_Parent`-Suffix aus GTFS `parent_station` wird von EFA nicht akzeptiert → DHID ohne Suffix.
 - Bei Ankünften (`itdTripDateTimeDepArr=arr`) heißen die Zeitfelder trotzdem `departureTimePlanned/-Estimated`.
-- Verspätungen werden als UTC-Differenz berechnet (Zeitstempel kommen mit `Z`-Suffix) – korrekt unabhängig von der Zeitzone.
+- Der EFA liefert alle Zeiten mit `Z`-Suffix (UTC) – der Client konvertiert sie nach Europe/Berlin, bevor er sie ausgibt (früher zeigten die Tools versehentlich UTC, was wie ein ignorierter `departure_time`-Parameter aussah; gefixt in v1.2.1).
+- Verspätungen werden als UTC-Differenz berechnet – zeitzonenunabhängig korrekt.
 - MS_REQUEST (Meldungs-Endpoint) liefert HTTP 400 → Störungen aus den eingebetteten `infos[]` der DM-Antworten extrahieren.
 - `calcNumberRequests` greift in rapidJSON nicht zuverlässig → `plan_connection` kann mehr Verbindungen liefern als `max_results` (Ergebnisse korrekt, nur Begrenzung weich).
 

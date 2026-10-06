@@ -62,8 +62,24 @@ def _get(endpoint: str, params: dict[str, Any]) -> dict:
 
 
 def _iso_to_hhmm(iso: Optional[str]) -> Optional[str]:
+    """EFA-Zeitstempel (UTC, Z-Suffix) → lokale Uhrzeit HH:MM.
+
+    Der VRR-EFA liefert alle timePlanned/timeEstimated in UTC; angezeigt
+    werden sollen lokale Zeiten (Europe/Berlin). Ohne Konvertierung würden
+    Nutzer Mehlzeiten/Abfahrten 2h zu früh angezeigt bekommen (Bug-Feedback
+    06.10.2026: departure_time schien ignoriert, tatsächlich waren die
+    Anzeigen UTC und damit irreführend).
+    """
     if not iso or len(iso) < 16:
         return None
+    if iso.endswith("Z"):
+        try:
+            from datetime import datetime, timezone, timedelta
+            dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+            local = dt.astimezone(timezone(timedelta(hours=2)))  # Europe/Berlin CEST
+            return local.strftime("%H:%M")
+        except ValueError:
+            pass
     return f"{iso[11:13]}:{iso[14:16]}"
 
 

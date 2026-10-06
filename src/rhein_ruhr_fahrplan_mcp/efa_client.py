@@ -34,8 +34,17 @@ EFA_BASE = "https://efa.vrr.de/standard"  # ohne Trailing-Slash; Endpunkt wird a
 UA = "rhein-ruhr-fahrplan-mcp/1.0 (+https://github.com/MarcProe/rhein-ruhr-fahrplan-mcp)"
 TIMEOUT = 30
 
-# Operator-Filter: leer = alle Unternehmen. Über FAHRPLAN_OPERATOR konfigurierbar.
-OPERATOR_FILTER = os.environ.get("FAHRPLAN_OPERATOR", "").strip() or None
+def _operator_from_env() -> Optional[str]:
+    """Operator-Filter aus FAHRPLAN_OPERATOR; unaufgelöste Installer-
+    Platzhalter (${...}) gelten als nicht gesetzt (vgl. server._env)."""
+    raw = os.environ.get("FAHRPLAN_OPERATOR", "")
+    if "${" in raw and "}" in raw:
+        return None
+    raw = raw.strip()
+    return raw or None
+
+
+OPERATOR_FILTER = _operator_from_env()
 
 
 class EfaError(RuntimeError):

@@ -52,10 +52,26 @@ log = logging.getLogger("fahrplan-mcp")
 DB_PATH = Path(os.environ.get("FAHRPLAN_DB_PATH",
                               Path.home() / ".local/share/rhein-ruhr-fahrplan-mcp/fahrplan.db"))
 
-AGENCY_IDS_RAW = os.environ.get("FAHRPLAN_AGENCY_IDS", "").strip()
+
+def _env(name: str) -> str:
+    """Env-Wert lesen; unaufgelöste Platzhalter (${...}) gelten als nicht gesetzt.
+
+    Installer wie mcpm hinterlassen beim Auslassen optionaler Argumente den
+    Literal-Platzhalter (z.B. '${FAHRPLAN_AGENCY_IDS}') in der Konfiguration.
+    Der Server behandelt solche Werte wie 'nicht gesetzt', damit der
+    Live-Only-Default erhalten bleibt (kein Import-Versuch mit Müll-IDs,
+    kein toter Operator-Filter, kein Platzhalter als Default-Start).
+    """
+    raw = os.environ.get(name, "")
+    if "${" in raw and "}" in raw:
+        return ""
+    return raw.strip()
+
+
+AGENCY_IDS_RAW = _env("FAHRPLAN_AGENCY_IDS")
 AGENCY_IDS = {a.strip() for a in AGENCY_IDS_RAW.split(",") if a.strip()}
 
-DEFAULT_START_RAW = os.environ.get("FAHRPLAN_DEFAULT_START", "").strip()
+DEFAULT_START_RAW = _env("FAHRPLAN_DEFAULT_START")
 # Lazy-Cache: erfolgreiche Auflösung von FAHRPLAN_DEFAULT_START (dict oder None)
 _DEFAULT_START_CACHE: Optional[dict] = None
 

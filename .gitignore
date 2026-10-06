@@ -1,0 +1,11 @@
+.venv/
+data/
+__pycache__/
+*.pyc
+*.log
+nohup.out
+compose.override.yaml
+*.egg-info/
+dist/
+build/
+uv.lock

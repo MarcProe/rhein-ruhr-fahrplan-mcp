@@ -1,0 +1,36 @@
+[project]
+name = "rhein-ruhr-fahrplan-mcp"
+version = "1.2.0"
+description = "MCP-Server für Fahrplandaten im Rhein-Ruhr-Gebiet: GTFS-Sollplan (VRR-OpenData) + Live-Echtzeit (EFA)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "MarcProe" }]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: GIS",
+]
+dependencies = [
+    "fastmcp>=4.0,<5",
+]
+
+[project.scripts]
+rhein-ruhr-fahrplan-mcp = "rhein_ruhr_fahrplan_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rhein_ruhr_fahrplan_mcp"]
+
+[tool.uv]
+package = true
+
+[project.urls]
+Homepage = "https://pypi.org/project/rhein-ruhr-fahrplan-mcp/"

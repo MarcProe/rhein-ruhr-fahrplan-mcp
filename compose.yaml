@@ -1,0 +1,22 @@
+services:
+  fahrplan-mcp:
+    build: .
+    image: rhein-ruhr-fahrplan-mcp:latest
+    container_name: fahrplan-mcp
+    restart: unless-stopped
+    # Kein ports-Mapping: nur im Docker-Netz erreichbar (Standard: internes
+    # Compose-Netz). Für Anbindung an einen MCP-Hub siehe compose.override.yaml
+    # (Beispiel im README).
+    expose:
+      - "8080"
+    volumes:
+      - ./data:/data
+    environment:
+      # Auto-Update: CKAN alle 6 h prüfen; Import nur bei neuer Ressource.
+      - FAHRPLAN_FEED_CHECK_INTERVAL=21600
+      # FAHRPLAN_AGENCY_IDS hier setzen, um GTFS-Import zu aktivieren, z.B.:
+      # - FAHRPLAN_AGENCY_IDS=nia-25
+      # - FAHRPLAN_AGENCY_IDS=nia-25,swk-18,dvg-20
+      # - FAHRPLAN_OPERATOR=NIAG        # optionaler Live-Operator-Filter
+      # FAHRPLAN_DB_PATH=/data/fahrplan.db ist im Dockerfile gesetzt.
+    # Healthcheck ist im Dockerfile definiert (python -m rhein_ruhr_fahrplan_mcp.healthcheck)

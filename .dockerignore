@@ -1,0 +1,11 @@
+.venv/
+data/
+*.db
+__pycache__/
+*.pyc
+.git/
+tests/
+nohup.out
+*.egg-info/
+dist/
+build/

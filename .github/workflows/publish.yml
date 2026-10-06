@@ -1,0 +1,33 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      # Trusted Publishing (OIDC): PyPI authentifiziert den Workflow direkt,
+      # kein API-Token und kein Secret nötig.
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: false
+
+      - name: Build sdist + wheel
+        run: uv build
+
+      - name: Publish to PyPI (trusted publishing)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # Bereits hochgeladene Dateien überspringen statt den Job scheitern
+          # zu lassen (idempotent: Tag-Re-Runs sind dann grün).
+          skip-existing: true

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.MarcProe/rhein-ruhr-fahrplan-mcp",
+  "title": "Rhein-Ruhr Fahrplan MCP",
+  "description": "ÖPNV-Fahrplandaten für das Rhein-Ruhr-Gebiet (Deutschland): Live-Abfahrten und Ankünfte mit Echtzeitprognosen und Verspätungen, Verbindungsplanung, Störungshinweise sowie optionaler GTFS-Sollplan (monatlich automatisch aktualisiert, gefiltert auf konfigurierbare Verkehrsunternehmen). Datenbasis: VRR-OpenData (EFA + GTFS), keine API-Keys erforderlich.",
+  "repository": {
+    "url": "https://github.com/MarcProe/rhein-ruhr-fahrplan-mcp",
+    "source": "github"
+  },
+  "version": "1.2.2",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "rhein-ruhr-fahrplan-mcp",
+      "version": "1.2.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Comma-separated GTFS agency IDs to enable the schedule database (e.g. 'nia-25'). Without it the server runs live-only; schedule tools return a configuration hint. An unfiltered import would create a ~500 MB database and is intentionally not the default.",
+          "isRequired": false,
+          "format": "string",
+          "name": "FAHRPLAN_AGENCY_IDS"
+        },
+        {
+          "description": "Optional: filter live departures/arrivals by operator code (e.g. 'NIAG'). Empty = all operators.",
+          "isRequired": false,
+          "format": "string",
+          "name": "FAHRPLAN_OPERATOR"
+        },
+        {
+          "description": "Optional: default start stop (DHID like 'de:05154:35739', EFA ID or unique name), available via the get_default_start tool.",
+          "isRequired": false,
+          "format": "string",
+          "name": "FAHRPLAN_DEFAULT_START"
+        }
+      ]
+    }
+  ]
+}

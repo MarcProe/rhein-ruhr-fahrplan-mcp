@@ -9,6 +9,7 @@
 [![MCP](https://img.shields.io/badge/MCP-Model_Context_Protocol-blue)](https://modelcontextprotocol.io)
 [![GTFS + EFA](https://img.shields.io/badge/data-GTFS%20%2B%20EFA-9cf)](#architektur)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/marcproe/rhein-ruhr-fahrplan-mcp)
 
 MCP-Server für **ÖPNV-Fahrplandaten im Rhein-Ruhr-Gebiet** (Datenbasis: Open Data des Verkehrsverbunds Rhein-Ruhr). Auf PyPI: <https://pypi.org/project/rhein-ruhr-fahrplan-mcp/>
 

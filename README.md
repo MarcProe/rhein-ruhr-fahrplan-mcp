@@ -11,6 +11,8 @@
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/marcproe/rhein-ruhr-fahrplan-mcp)
 
+[![Rhein-Ruhr Fahrplan MCP server](https://mcprush.com/badge/rhein-ruhr-fahrplan-mcp/card.svg)](https://mcprush.com/to/rhein-ruhr-fahrplan-mcp?ref=badge)
+
 MCP-Server für **ÖPNV-Fahrplandaten im Rhein-Ruhr-Gebiet** (Datenbasis: Open Data des Verkehrsverbunds Rhein-Ruhr). Auf PyPI: <https://pypi.org/project/rhein-ruhr-fahrplan-mcp/>
 
 Zwei Datenpfeiler, beide keyless:
